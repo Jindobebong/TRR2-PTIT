@@ -1,0 +1,1 @@
+{"name":"Local: so_thap_cam","url":"e:\\TRR2\\so_thap_cam.cpp","tests":[{"id":1748789729340,"input":"5\n1\n2\n8\n16\n205\n","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"e:\\TRR2\\so_thap_cam.cpp","group":"local","local":true}

@@ -1,0 +1,1 @@
+{"name":"Local: chia_deu","url":"e:\\TRR2\\chia_deu.cpp","tests":[{"id":1749120764138,"input":"3 2\n-2 0 -2","output":"2"},{"id":1749120775484,"input":"3 2\n1 2 3","output":"1"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"e:\\TRR2\\chia_deu.cpp","group":"local","local":true}

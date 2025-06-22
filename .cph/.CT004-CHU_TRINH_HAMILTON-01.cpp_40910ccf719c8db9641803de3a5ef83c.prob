@@ -1,0 +1,1 @@
+{"name":"Local: CT004-CHU_TRINH_HAMILTON-01","url":"e:\\Toán rời rạc 2\\CT004-CHU_TRINH_HAMILTON-01.cpp","tests":[{"id":1747127402845,"input":"4 1\n0 1 0 0\n0 0 1 0\n0 0 0 1\n1 0 0 0","output":"1\n1 2 3 4 1"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"e:\\Toán rời rạc 2\\CT004-CHU_TRINH_HAMILTON-01.cpp","group":"local","local":true}

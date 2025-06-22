@@ -1,0 +1,1 @@
+{"name":"Local: di_chuyen_tren_do_thi_co_trong_so","url":"e:\\TRR2\\di_chuyen_tren_do_thi_co_trong_so.cpp","tests":[{"id":1749049674580,"input":"2\n2[a]3[b]\n[a]10[b]","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"e:\\TRR2\\di_chuyen_tren_do_thi_co_trong_so.cpp","group":"local","local":true}
