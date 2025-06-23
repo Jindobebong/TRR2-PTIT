@@ -4,28 +4,37 @@
 #define endl "\n"
 using namespace std;
 
-int a[105][105];
+int n, m, u, path[105];
+vector<int>ke[105];
 bool vis[105];
-vector<int>path;
 vector<vector<int>>ans;
-int n, m, u;
 
-void backtrack(int current, int cnt){
-    if(cnt == n){
-        if(a[current][u]){
-            path.push_back(u);
-            ans.push_back(path);
-            path.pop_back();
-        }
-        return;
-    }
-    for(int v = 1; v <= n; ++v){
-        if(!vis[v] && a[current][v]){
-            vis[v] = true;
-            path.push_back(v);
-            backtrack(v, cnt + 1);
-            vis[v] = false;
-            path.pop_back();
+void hamilton(int i){
+    int pre = path[i - 1];
+    for(int j : ke[pre]){
+        if(!vis[j]){
+            vis[j] = true; 
+            path[i] = j;
+
+            if(i == n){
+                bool check = false;
+                for(int x : ke[path[n]]){
+                    if(x == u){
+                        check = true;
+                        break;
+                    }
+                }
+                if(check){
+                    vector<int>res;
+                    for(int i = 1; i <= n; ++i){
+                        res.push_back(path[i]);
+                    }
+                    res.push_back(path[1]);
+                    ans.push_back(res);
+                }
+            }
+            else hamilton(i + 1);
+            vis[j] = false;
         }
     }
 }
@@ -33,20 +42,18 @@ int main()
 {
     ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
     cin >> n >> m >> u; 
-    memset(a, 0, sizeof a);
-    for(int i = 1; i <= m; ++i){
-        int x, y; cin >> x >> y; 
-        a[x][y] = 1;
-        a[y][x] = 1;
+    for(int i = 0; i < m; ++i){
+        int ui, vi; cin >> ui >> vi; 
+        ke[ui].push_back(vi);
+        ke[vi].push_back(ui);
     }
-    path.push_back(u);
+    path[1] = u; 
     vis[u] = true;
-    backtrack(u, 1);
-
+    hamilton(2);
     cout << ans.size() << endl;
     for(auto x : ans){
-        for(auto y : x)
-            cout << y << " ";
+        for(int i : x)
+            cout << i << " ";
         cout << endl;
     }
     return 0;

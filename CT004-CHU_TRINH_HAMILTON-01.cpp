@@ -4,47 +4,60 @@
 #define endl "\n"
 using namespace std;
 
-int n, u, a[105][105];
+int n, u, path[105];
+vector<vector<int>>ans; 
+vector<int>ke[105];
 bool vis[105];
-vector<int>path;
-vector<vector<int>>ans;
 
-void backtrack(int current, int cnt){
-    if(cnt == n){
-        if(a[current][u]){
-            path.push_back(u);
-            ans.push_back(path);
-            path.pop_back();
-        }
-        return;
-    }
+void hamilton(int i){
+    int pre = path[i - 1];
+    for(int j : ke[pre]){
+        if(!vis[j]){
+            path[i] = j; 
+            vis[j] = true; 
 
-    for(int v = 1; v <= n; ++v){
-        if(!vis[v] && a[current][v]){
-            vis[v] = true;
-            path.push_back(v);
-            backtrack(v, cnt + 1);
-            vis[v] = false;
-            path.pop_back();
+            if(i == n){
+                bool check = false;
+                for(int i : ke[path[n]]){
+                    if(i == u){
+                        check = true; 
+                        break;
+                    }
+                }
+                if(check){
+                    vector<int>res;
+                    for(int i = 1; i <= n; ++i)
+                        res.push_back(path[i]);
+                    res.push_back(path[1]);
+                    ans.push_back(res);
+                }
+            }
+            else hamilton(i + 1);
+            vis[j] = false;
         }
     }
 }
 int main()
 {
     ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-    cin >> n >> u;
+    // freopen("CT.INP", "r", stdin);
+    // freopen("CT.OUT", "w", stdout);
+    cin >> n >> u; 
     for(int i = 1; i <= n; ++i){
-        for(int j = 1; j <= n; ++j)
-            cin >> a[i][j];
+        for(int j = 1; j <= n; ++j){
+            int x; cin >> x; 
+            if(x == 1){
+                ke[i].push_back(j);
+            }
+        }
     }
-    path.push_back(u);
+    path[1] = u; 
     vis[u] = true;
-    backtrack(u, 1);
-
+    hamilton(2);
     cout << ans.size() << endl;
     for(auto x : ans){
-        for(auto y : x)
-            cout << y << " ";
+        for(int i : x)
+            cout << i << " ";
         cout << endl;
     }
     return 0;

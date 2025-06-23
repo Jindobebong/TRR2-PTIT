@@ -4,31 +4,36 @@
 #define endl "\n"
 using namespace std;
 
-int n, u, a[105][105];
+int n, u;
+vector<pair<int, int>>ke[105];
+int path[105], a[105][105];
 bool vis[105];
-vector<int>path;
-int mini = 1e9;
-vector<int>ans;
-int check;
+vector<vector<int>>ans;
 
-void backtrack(int current, int cnt, int cost){
-    if(cnt == n){
-        if(a[current][u] != 10000 && a[current][u]){
-            if(mini > cost + a[current][u]){
-                check = 1;
-                mini = cost + a[current][u];
-                ans = path;
+void hamilton(int i){
+    int pre = path[i - 1];
+    for(auto [j, w] : ke[pre]){
+        if(!vis[j]){
+            path[i] = j; 
+            vis[j] = true; 
+            bool check = false;
+            if(i == n){
+                for(auto [x, y] : ke[path[n]]){
+                    if(x == u){
+                        check = true;
+                        break;
+                    }
+                }
+                vector<int>res;
+                if(check){
+                    for(int i = 1; i <= n; ++i)
+                        res.push_back(path[i]);
+                    res.push_back(u);
+                    ans.push_back(res);
+                }
             }
-        }
-        return;
-    }
-    for(int v = 1; v <= n; ++v){
-        if(!vis[v] && a[current][v] && a[current][v] != 10000){
-            vis[v] = true;
-            path.push_back(v);
-            backtrack(v, cnt + 1, cost + a[current][v]);
-            vis[v] = false;
-            path.pop_back();
+            else hamilton(i + 1);
+            vis[j] = false;
         }
     }
 }
@@ -36,20 +41,48 @@ int main()
 {
     ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
     cin >> n >> u; 
-    for(int i = 1; i <= n; ++i)
-        for(int j = 1; j <= n; ++j)
+    for(int i = 1; i <= n; ++i){
+        for(int j = 1; j <= n; ++j){
             cin >> a[i][j];
-    
-    vis[u] = true;
-    path.push_back(u);
-    backtrack(u, 1, 0);
-
-    if(check){
-        cout << mini << endl;
-        for(int i : ans)
-            cout << i << " ";
-        cout << u;
+            if(a[i][j] != 10000 && a[i][j] != 0){
+                ke[i].push_back({j, a[i][j]});
+            }
+        }
     }
-    else cout << 0;
+    path[1] = u; 
+    vis[u] = true;
+    hamilton(2);
+    if(ans.size() == 0) cout << 0; 
+    else{
+        vector<int>res;
+        int mini = 10000;
+        for(auto x : ans){
+            int sum = 0;
+            // for(int i : x)
+            //     cout << i << " ";
+            // cout << endl;
+            for(int i = 1; i < x.size(); ++i){
+                sum += a[x[i - 1]][x[i]];
+            }
+            //cout << sum << endl;
+            if(mini > sum){
+                mini = sum; 
+                res = x;
+            }
+        }
+        cout << mini << endl; 
+        for(auto x : res)
+            cout << x << " ";
+    }
     return 0;
 }
+/*
+5 2
+0 2 10000 10000 10000
+2 0 3 1 10000
+10000 3 0 4 5
+10000 1 4 0 5
+10000 10000 5 5 0
+
+
+*/
